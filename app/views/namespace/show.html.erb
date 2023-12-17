@@ -1,0 +1,58 @@
+<h1>Namespace: <%= @namespace.metadata.name %></h1>
+
+<h2>Pods</h2>
+<% @pods.each do |pod| %>
+  <div class="pod">
+    <h3>Pod: <%= pod.metadata.name %></h3>
+    <p><strong>UID:</strong> <%= pod.metadata.uid %></p>
+    <p><strong>Created At:</strong> <%= pod.metadata.creationTimestamp %></p>
+    <p><strong>Labels:</strong> <%= pod.metadata.labels.to_h.map { |k, v| "#{k}=#{v}" }.join(", ") %></p>
+    <p><strong>Node:</strong> <%= pod.spec.nodeName %></p>
+
+    <h3>Status</h3>
+    <p><strong>Phase:</strong> <%= pod.status.phase %></p>
+    <p><strong>IP:</strong> <%= pod.status.podIP %></p>
+    <p><strong>QoS:</strong> <%= pod.status.qosClass %></p>
+
+    <h3>Containers</h3>
+    <ul>
+      <% pod.spec.containers.each do |container| %>
+        <li>
+          <%= container.name %>
+          <small>(<%= container.image %>)</small>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h2>Ingresses</h2>
+<% @ingresses.each do |ingress| %>
+  <div class="ingress">
+    <h3>Ingress: <%= ingress.metadata.name %></h3>
+    <p><strong>UID:</strong> <%= ingress.metadata.uid %></p>
+    <p><strong>Created At:</strong> <%= ingress.metadata.creationTimestamp %></p>
+
+    <% if ingress.spec.rules %>
+      <h4>Rules:</h4>
+      <% ingress.spec.rules.each do |rule| %>
+        <div class="rule">
+          <% if rule.http && rule.http.paths %>
+            <p><strong>Paths:</strong></p>
+            <ul>
+              <% rule.http.paths.each do |path| %>
+                <li>
+                  Path: <%= path.path %>
+                  <br>
+                  Backend Service: <%= path.backend.service.name %>
+                  <br>
+                  Service Port: <%= path.backend.service.port.number %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

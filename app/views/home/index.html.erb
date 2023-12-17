@@ -1,3 +1,13 @@
+<h1>Namespaces</h1>
+
+<% @client.namespaces.each do |namespace| %>
+  <ul class="namespace">
+    <li>
+      <%= link_to namespace.metadata.name, "/namespace/#{namespace.metadata.name}" %>
+    </li>
+  </ul>
+<% end %>
+
 <h1>Cluster Nodes</h1>
 
 <% @client.nodes.each do |node| %>

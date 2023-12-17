@@ -25,6 +25,26 @@ class KubernetesClientService
     get("/api/v1/nodes").items
   end
 
+  def namespaces
+    get("/api/v1/namespaces").items
+  end
+
+  def namespace(name)
+    get("/api/v1/namespaces/#{name}")
+  end
+
+  def ingresses(namespace)
+    get("/apis/networking.k8s.io/v1/namespaces/#{namespace}/ingresses").items
+  end
+
+  def services(namespace)
+    get("/api/v1/namespaces/#{namespace}/services").items
+  end
+
+  def pods(namespace)
+    get("/api/v1/namespaces/#{namespace}/pods").items
+  end
+
   private
 
   def get(path)
