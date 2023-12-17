@@ -1,0 +1,27 @@
+<h1>Cluster Nodes</h1>
+
+<% @client.nodes.each do |node| %>
+  <div class="node">
+    <h2>Node: <%= node.metadata.name %></h2>
+    <p><strong>UID:</strong> <%= node.metadata.uid %></p>
+    <p><strong>Created At:</strong> <%= node.metadata.creationTimestamp %></p>
+    <p><strong>Labels:</strong> <%= node.metadata.labels.to_h.map { |k, v| "#{k}=#{v}" }.join(", ") %></p>
+    <p><strong>Architecture:</strong> <%= node.metadata.labels["kubernetes.io/arch"] %></p>
+    <p><strong>OS:</strong> <%= node.metadata.labels["kubernetes.io/os"] %></p>
+    
+    <h3>Status</h3>
+    <p><strong>CPU:</strong> <%= node.status.capacity.cpu %></p>
+    <p><strong>Memory:</strong> <%= node.status.capacity.memory %></p>
+    <p><strong>Pod Capacity:</strong> <%= node.status.capacity.pods %></p>
+
+    <h3>Conditions</h3>
+    <ul>
+      <% node.status.conditions.each do |condition| %>
+        <li>
+          <%= condition.type %>: <%= condition.status %>
+          <small>(<%= condition.reason %>)</small>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

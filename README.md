@@ -1,24 +1,45 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Get started
 
-Things you may want to cover:
+Create a service account on your cluster:
 
-* Ruby version
+```sh
+kubectsl create sa kumevito
+```
 
-* System dependencies
+<!-- TODO: create specific permissions to avoid using cluster-admin -->
 
-* Configuration
+Give it cluster admin privileges:
 
-* Database creation
+```sh
+kubectsl create clusterrolebinding kumevito-cluster-admin --clusterrole=admin --serviceaccount=default:kumevito
+```
 
-* Database initialization
+Create the secret for the service account:
 
-* How to run the test suite
+```sh
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kumevito-secret
+  annotations:
+    kubernetes.io/service-account.name: kumevito
+type: kubernetes.io/service-account-token
+EOF
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Get the token:
 
-* Deployment instructions
+```sh
+kubectl get secret kumevito-secret -o jsonpath="{.data.token}" | base64 --decode
+```
 
-* ...
+Create a `.env` file follwing the `.env.example` and add the `CLUSTER_SERVICE_ACCOUNT_TOKEN` with the value you got from the previous command.
+
+```sh
+CLUSTER_SERVICE_ACCOUNT_TOKEN=< add here token >
+CLUSTER_HOST=
+CLUSTER_PORT=
+```

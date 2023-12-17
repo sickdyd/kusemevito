@@ -3,6 +3,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.7.0"
 
+# To handle HTTP requests
+gem "httpparty"
+gem "net-http"
+
+# To use .env file for environment variables
+gem "dotenv-rails"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.7", ">= 7.0.7.2"
 
