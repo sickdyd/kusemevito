@@ -2,6 +2,16 @@
 
 ### Get started
 
+## System packages
+
+Install graphviz, which is used to generate `.png` files of the graph:
+
+```sh
+brew install graphviz
+```
+
+## Cluster config
+
 Create a service account on your cluster:
 
 ```sh

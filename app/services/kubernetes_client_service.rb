@@ -33,25 +33,35 @@ class KubernetesClientService
     get("/api/v1/namespaces/#{name}")
   end
 
-  def ingresses(namespace)
-    get("/apis/networking.k8s.io/v1/namespaces/#{namespace}/ingresses").items
+  def namespaced_deployments(namespace_name)
+    get("/apis/apps/v1/namespaces/#{namespace_name}/deployments").items
   end
 
-  def services(namespace)
-    get("/api/v1/namespaces/#{namespace}/services").items
+  def namespaced_ingresses(namespace_name)
+    get("/apis/networking.k8s.io/v1/namespaces/#{namespace_name}/ingresses").items
   end
 
-  def pods(namespace)
-    get("/api/v1/namespaces/#{namespace}/pods").items
+  def namespaced_services(namespace_name, label_selector=nil)
+    if label_selector
+      get("/api/v1/namespaces/#{namespace_name}/services?labelSelector=#{label_selector}").items
+    else
+      get("/api/v1/namespaces/#{namespace_name}/services").items
+    end
   end
 
-  private
+  def namespaced_pods(namespace_name, label_selector=nil)
+    if label_selector
+      get("/api/v1/namespaces/#{namespace_name}/pods?labelSelector=#{label_selector}").items
+    else
+      get("/api/v1/namespaces/#{namespace_name}/pods").items
+    end
+  end
 
   def get(path)
     response = self.class.get(path, @options)
 
     if response.code != 200
-      raise response.body
+      raise "#{@options[:base_uri]}#{path} - #{JSON.pretty_generate(JSON.parse(response.body))}"
     else
       JSON.parse(response.body, object_class: OpenStruct)
     end
