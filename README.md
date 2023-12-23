@@ -13,7 +13,7 @@ kubectl create sa kumevito
 Give it cluster admin privileges:
 
 ```sh
-kubectl create clusterrolebinding kumevito-cluster-admin --clusterrole=admin --serviceaccount=default:kumevito
+kubectl create clusterrolebinding kumevito-cluster-admin --clusterrole=cluster-admin --serviceaccount=default:kumevito
 ```
 
 Create the secret for the service account:
