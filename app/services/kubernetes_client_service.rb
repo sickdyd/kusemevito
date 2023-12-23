@@ -49,6 +49,11 @@ class KubernetesClientService
 
   def get(path)
     response = self.class.get(path, @options)
-    JSON.parse(response.body, object_class: OpenStruct)
+
+    if response.code != 200
+      raise response.body
+    else
+      JSON.parse(response.body, object_class: OpenStruct)
+    end
   end
 end
