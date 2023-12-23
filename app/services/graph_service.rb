@@ -4,6 +4,7 @@ require 'rgl/dot'
 class GraphService
   attr_reader :graph
 
+  # The API does not return the kind of resource, so we need to keep track of it ourselves
   RESOURCE_KIND_NAMESPACE = "Namespace"
   RESOURCE_KIND_DEPLOYMENT = "Deployment"
   RESOURCE_KIND_SERVICE = "Service"
