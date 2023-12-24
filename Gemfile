@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.7.0"
 
 # To handle graphs
-gem 'rgl'
+gem "rgl"
 
 # To handle HTTP requests
 gem "httpparty"
