@@ -12,7 +12,8 @@ class KubernetesClientService
       headers: {
         'Authorization' => "Bearer #{CLUSTER_SERVICE_ACCOUNT_TOKEN}",
         'Content-Type' => 'application/json',
-        'Accept' => 'application/json'
+        'Accept' => 'application/json',
+        'Accept-Encoding' => 'gzip'
       },
       verify: Rails.env.production? ? true : false
     }
