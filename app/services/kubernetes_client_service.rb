@@ -1,19 +1,16 @@
 class KubernetesClientService
   include HTTParty
 
-  DEFAULT_CLUSTER_HOST='localhost'
-  DEFAULT_CLUSTER_PORT=6443
+  CLUSTER_HOST = ENV['CLUSTER_HOST'].present? ? ENV['CLUSTER_HOST'] : 'localhost'
+  CLUSTER_PORT= ENV['CLUSTER_PORT'] || 6443
+  CLUSTER_BASE_URI = "https://#{CLUSTER_HOST}:#{CLUSTER_PORT}"
+  CLUSTER_SERVICE_ACCOUNT_TOKEN = ENV['CLUSTER_SERVICE_ACCOUNT_TOKEN']
 
   def initialize
-    cluster_host = ENV['CLUSTER_HOST'].present? ? ENV['CLUSTER_HOST'] : DEFAULT_CLUSTER_HOST
-    cluster_port = ENV['CLUSTER_PORT'] || DEFAULT_CLUSTER_PORT
-    base_uri = "https://#{cluster_host}:#{cluster_port}"
-    bearer_token = ENV['CLUSTER_SERVICE_ACCOUNT_TOKEN']
-
     @options = {
-      base_uri: base_uri,
+      base_uri: CLUSTER_BASE_URI,
       headers: {
-        'Authorization' => "Bearer #{bearer_token}",
+        'Authorization' => "Bearer #{CLUSTER_SERVICE_ACCOUNT_TOKEN}",
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
       },
