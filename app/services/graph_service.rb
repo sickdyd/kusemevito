@@ -53,7 +53,7 @@ class GraphService
 
   def vertex(resource, kind, parent_resource_uid=nil)
     graph.add_vertex(uid(resource))
-    graph.set_vertex_options(uid(resource), vertex_options(resource, kind))
+    graph.set_vertex_options(uid(resource), **vertex_options(resource, kind))
 
     graph.add_edge(parent_resource_uid, uid(resource)) if parent_resource_uid.present?
   end
