@@ -40,19 +40,15 @@ class KubernetesClientService
   end
 
   def namespaced_services(namespace_name, label_selector=nil)
-    if label_selector
-      get("/api/v1/namespaces/#{namespace_name}/services?labelSelector=#{label_selector}").items
-    else
-      get("/api/v1/namespaces/#{namespace_name}/services").items
-    end
+    get("/api/v1/namespaces/#{namespace_name}/services?labelSelector=#{label_selector}").items
   end
 
   def namespaced_pods(namespace_name, label_selector=nil)
-    if label_selector
-      get("/api/v1/namespaces/#{namespace_name}/pods?labelSelector=#{label_selector}").items
-    else
-      get("/api/v1/namespaces/#{namespace_name}/pods").items
-    end
+    get("/api/v1/namespaces/#{namespace_name}/pods?labelSelector=#{label_selector}").items
+  end
+
+  def namespaced_pods_resource_version(namespace_name, label_selector=nil)
+    get("/api/v1/namespaces/#{namespace_name}/pods?labelSelector=#{label_selector}").metadata.resourceVersion
   end
 
   def get(path)
